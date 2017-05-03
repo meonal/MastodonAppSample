@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MastodonAppSample", "MastodonAppSample\MastodonAppSample.csproj", "{21D164FE-4F27-4628-B189-5DC3A194AFCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MastodonAppSample.Test", "MastodonAppSample.Test\MastodonAppSample.Test.csproj", "{2812BDEE-BDFB-4EA7-B0BD-60C9158FCA0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{21D164FE-4F27-4628-B189-5DC3A194AFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21D164FE-4F27-4628-B189-5DC3A194AFCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{21D164FE-4F27-4628-B189-5DC3A194AFCE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2812BDEE-BDFB-4EA7-B0BD-60C9158FCA0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2812BDEE-BDFB-4EA7-B0BD-60C9158FCA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2812BDEE-BDFB-4EA7-B0BD-60C9158FCA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2812BDEE-BDFB-4EA7-B0BD-60C9158FCA0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
