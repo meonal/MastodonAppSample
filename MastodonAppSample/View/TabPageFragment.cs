@@ -5,7 +5,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 
-namespace MastodonAppSample
+namespace MastodonAppSample.View
 {
     /// <summary>
     /// タブページ
@@ -30,7 +30,7 @@ namespace MastodonAppSample
             mPage = Arguments.GetInt(ARG_PAGE);
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override Android.Views.View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.fragment_page, container, false);
             var textView = (TextView) view;

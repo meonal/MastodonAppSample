@@ -6,7 +6,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 
-namespace MastodonAppSample
+namespace MastodonAppSample.View
 {
     [Activity(Label = "MastodonAppSample", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : AppCompatActivity

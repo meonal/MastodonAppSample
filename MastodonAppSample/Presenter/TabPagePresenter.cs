@@ -5,7 +5,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 
-namespace MastodonAppSample
+namespace MastodonAppSample.Presenter
 {
     /// <summary>
     /// タブページ

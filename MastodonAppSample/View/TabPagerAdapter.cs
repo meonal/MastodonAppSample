@@ -6,7 +6,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 
-namespace MastodonAppSample
+namespace MastodonAppSample.View
 {
     /// <summary>
     /// タブページャー
@@ -47,7 +47,7 @@ namespace MastodonAppSample
             return CharSequence.ArrayFromStringArray(tabTitles)[position];
         }
 
-        public View GetTabView(int position)
+        public Android.Views.View GetTabView(int position)
         {
             // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView
             var tv = (TextView) LayoutInflater.From(context).Inflate(Resource.Layout.custom_tab, null);
