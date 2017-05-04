@@ -37,12 +37,14 @@ namespace MastodonAppSample.Test
         [TestCase("mastodon.cloud")]
         public void OAuthApp登録(string instanceUrl)
         {
+            
+            Assert.Ignore("毎回実行すると迷惑かかるのでスキップ");
 
             var authClient = new AuthenticationClient(instanceUrl);
             var appRegistration = new AppRegistration();
             Assert.DoesNotThrow(async () =>
             {
-                appRegistration = await authClient.CreateApp("Paoooooon", Scope.Read | Scope.Write | Scope.Follow);
+                appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow);
             });
 
             Console.WriteLine("appRegistration");
