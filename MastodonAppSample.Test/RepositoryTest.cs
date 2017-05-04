@@ -26,18 +26,23 @@ namespace MastodonAppSample.Test
         public void Tear() { }
 
 
+        /// <summary>
+        /// OAuth app登録.
+        /// インスタンスによっては登録を許可していない
+        /// </summary>
+        /// <param name="instanceUrl">Instance URL.</param>
         [TestCase("friends.nico")]
-        //[TestCase("mstdn.jp")]
-        //[TestCase("pawoo.net")]
-        //[TestCase("mastodon.cloud")]
+        [TestCase("mstdn.jp")]
+        [TestCase("pawoo.net")]
+        [TestCase("mastodon.cloud")]
         public void OAuthApp登録(string instanceUrl)
         {
 
             var authClient = new AuthenticationClient(instanceUrl);
             var appRegistration = new AppRegistration();
-            Assert.DoesNotThrow(() =>
+            Assert.DoesNotThrow(async () =>
             {
-                appRegistration = authClient.CreateApp("Paoooooon", Scope.Read | Scope.Write | Scope.Follow).Result;
+                appRegistration = await authClient.CreateApp("Paoooooon", Scope.Read | Scope.Write | Scope.Follow);
             });
 
             Console.WriteLine("appRegistration");
