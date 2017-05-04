@@ -3,6 +3,7 @@ using Android.App;
 using Android.Content;
 using MastodonAppSample.Model.Repository;
 using Mastonet;
+using Mastonet.Entities;
 using NUnit.Framework;
 
 namespace MastodonAppSample.Test
@@ -11,7 +12,6 @@ namespace MastodonAppSample.Test
     public class MastodonApiTest
     {
         const string AppName = "Paooooooon";
-        const string InstanceUrl = "friends.nico";
 
         private SettingRepository setting;
 
@@ -25,47 +25,28 @@ namespace MastodonAppSample.Test
         [TearDown]
         public void Tear() { }
 
-        [Test]
-        public async void OAuthApp登録()
+
+        [TestCase("friends.nico")]
+        //[TestCase("mstdn.jp")]
+        //[TestCase("pawoo.net")]
+        //[TestCase("mastodon.cloud")]
+        public void OAuthApp登録(string instanceUrl)
         {
-            var prefs = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private);
-            if (!string.IsNullOrEmpty(prefs.GetString("ClientId", null)))
+
+            var authClient = new AuthenticationClient(instanceUrl);
+            var appRegistration = new AppRegistration();
+            Assert.DoesNotThrow(() =>
             {
-                Assert.Ignore("すでに設定が保存されているためスキップ");
-            }
-
-            var authClient = new AuthenticationClient(InstanceUrl);
-            var appRegistration = await authClient.CreateApp("Paoooooon", Scope.Read | Scope.Write | Scope.Follow);
-
-            var editor = prefs.Edit();
-            editor.PutString("ClientId", appRegistration.ClientId);
-            editor.PutString("ClientSecret", appRegistration.ClientSecret);
-            editor.Commit();
+                appRegistration = authClient.CreateApp("Paoooooon", Scope.Read | Scope.Write | Scope.Follow).Result;
+            });
 
             Console.WriteLine("appRegistration");
             Console.WriteLine("Id:" + appRegistration.Id);
             Console.WriteLine("RedirectUri:" + appRegistration.RedirectUri);
             Console.WriteLine("ClientId:" + appRegistration.ClientId);
             Console.WriteLine("ClientSecret:" + appRegistration.ClientSecret);
-
-            Assert.True(true);
         }
 
-        [Test]
-        public void OAuthApp設定取得()
-        {
-
-            var prefs = Application.Context.GetSharedPreferences(AppName, FileCreationMode.Private);
-            var clientId = prefs.GetString("ClientId", null);
-            var clientSecret = prefs.GetString("ClientSecret", null);
-
-            Console.WriteLine("appRegistration");
-            Console.WriteLine("ClientId:" + clientId);
-            Console.WriteLine("ClientSecret:" + clientSecret);
-
-            Assert.AreNotEqual(null, clientId);
-            Assert.AreNotEqual(null, clientSecret);
-        }
 
         [Test]
         public void 設定保存_設定取得()
