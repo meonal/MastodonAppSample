@@ -11,7 +11,7 @@ namespace MastodonAppSample.Model
     /// </summary>
     public class ApiClient
     {
-        const string AppName = "Paooooooon";
+        const string AppName = "Paoooon";
 
         private readonly SettingRepository setting;
         private readonly string instance;

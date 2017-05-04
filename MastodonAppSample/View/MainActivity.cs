@@ -8,7 +8,7 @@ using Android.Support.V7.Widget;
 
 namespace MastodonAppSample.View
 {
-    [Activity(Label = "MastodonAppSample", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "LoginActivity")]
     public class MainActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)

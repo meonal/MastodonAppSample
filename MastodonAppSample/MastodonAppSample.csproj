@@ -117,14 +117,16 @@
     <Compile Include="Presenter\TabPagePresenter.cs" />
     <Compile Include="Model\Repository\SettingRepository.cs" />
     <Compile Include="Model\ApiClient.cs" />
+    <Compile Include="View\LoginActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <AndroidResource Include="Resources\layout\fragment_page.axml">
+    <AndroidResource Include="Resources\layout\fragment_page.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\login.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
