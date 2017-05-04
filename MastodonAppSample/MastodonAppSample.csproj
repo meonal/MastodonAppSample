@@ -115,6 +115,7 @@
     <Compile Include="View\TabPageFragment.cs" />
     <Compile Include="View\TabPagerAdapter.cs" />
     <Compile Include="Presenter\TabPagePresenter.cs" />
+    <Compile Include="Model\Repository\SettingRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -143,6 +144,7 @@
     <Folder Include="View\" />
     <Folder Include="Presenter\" />
     <Folder Include="Model\" />
+    <Folder Include="Model\Repository\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
