@@ -5,10 +5,11 @@ using Android.Support.V4.App;
 using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
+using MastodonAppSample.Model.Definition;
 
 namespace MastodonAppSample.View
 {
-    [Activity(Label = "LoginActivity")]
+    [Activity(Label = "MainActivity")]
     public class MainActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -26,7 +27,7 @@ namespace MastodonAppSample.View
 
             // Setup Toolbar
             SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "MastodonAppSample";
+            SupportActionBar.Title = Constants.AppName;
 
             // Set adapter to view pager
             pager.Adapter = adapter;

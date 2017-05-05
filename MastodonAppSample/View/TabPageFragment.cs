@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using MastodonAppSample.Model;
+using MastodonAppSample.Model.Entity;
+using Debug = System.Diagnostics.Debug;
 
 namespace MastodonAppSample.View
 {
@@ -14,6 +19,12 @@ namespace MastodonAppSample.View
     {
         const string ARG_PAGE = "ARG_PAGE";
         private int mPage;
+        private readonly HttpClient client;
+
+        public TabPageFragment()
+        {
+            client = new HttpClient();
+        }
 
         public static TabPageFragment newInstance(int page)
         {
@@ -33,9 +44,45 @@ namespace MastodonAppSample.View
         public override Android.Views.View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var view = inflater.Inflate(Resource.Layout.fragment_page, container, false);
-            var textView = (TextView) view;
-            textView.Text = "Fragment #" + mPage;
+            var listView = (ListView)view;
+
+            var timeline = new List<TimelineItem>();
+            var adapter = new TimelineAdapter(Context, timeline);
+            listView.Adapter = adapter;
+
+            //行の移動
+            //listView.SetSelection(10);  //10番目の行(item_10)を一番上に表示する
+
+            if (mPage == 1)
+            {
+                var mastodonClient = new ApiClient().Create();
+
+                var streaming = mastodonClient.GetPublicStreaming();
+                streaming.OnUpdate += async (sender, e) =>
+                {
+                    Debug.WriteLine(e.Status.Account.AvatarUrl);
+                    var item = new TimelineItem();
+
+                    try
+                    {
+                        item.IconImage = await client.GetByteArrayAsync(e.Status.Account.AvatarUrl);
+                    }
+                    catch (System.Exception)
+                    {
+                        Debug.WriteLine("アイコン画像取得失敗");
+                    }
+
+                    item.Staus = e.Status;
+                    timeline.Insert(0, item);
+                    adapter.NotifyDataSetChanged();
+                };
+
+                streaming.Start();
+            }
+
             return view;
         }
+
+
     }
 }

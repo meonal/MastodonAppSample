@@ -13,12 +13,12 @@ namespace MastodonAppSample.View
     /// </summary>
     public class TabPagerAdapter : FragmentPagerAdapter
     {
-        const int PAGE_COUNT = 2;
+        const int PAGE_COUNT = 3;
         private string[] tabTitles = 
         {
             "メイン",
             "ローカル",
-
+            "連合"
         };
         readonly Context context;
 

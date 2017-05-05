@@ -59,6 +59,7 @@ namespace MastodonAppSample.Model
         {
             var appRegistration = JsonConvert.DeserializeObject<AppRegistration>(setting.GetString(appRegistrationKey));
             var auth = JsonConvert.DeserializeObject<Auth>(setting.GetString(authKey));
+            appRegistration.Instance = instance;
             return new MastodonClient(appRegistration, auth);
         }
 

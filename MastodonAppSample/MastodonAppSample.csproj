@@ -120,6 +120,8 @@
     <Compile Include="View\LoginActivity.cs" />
     <Compile Include="Model\Definition\Constants.cs" />
     <Compile Include="Model\Definition\AppSettingKeys.cs" />
+    <Compile Include="View\TimelineAdapter.cs" />
+    <Compile Include="Model\Entity\TimelineItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -130,6 +132,7 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\login.xml" />
     <None Include="NLog.config" />
+    <AndroidResource Include="Resources\layout\timeline_item.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -152,6 +155,7 @@
     <Folder Include="Model\" />
     <Folder Include="Model\Repository\" />
     <Folder Include="Model\Definition\" />
+    <Folder Include="Model\Entity\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
