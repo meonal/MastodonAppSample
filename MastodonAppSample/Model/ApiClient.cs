@@ -12,45 +12,44 @@ namespace MastodonAppSample.Model
     public class ApiClient
     {
         const string AppName = "Paoooon";
+        const string redirectUrl = "paoooon://authorize";
 
         private readonly SettingRepository setting;
+        private readonly AuthenticationClient authClient;
         private readonly string instance;
-        private string appRegistrationKey;
-        private string authKey;
+        private readonly string appRegistrationKey;
+        private readonly string authKey;
 
-        public ApiClient()
+        public bool HasAccessToken
+        {
+            get { return !string.IsNullOrEmpty(setting.GetString(authKey)); }
+        }
+
+        public ApiClient(string instance = null)
         {
             setting = new SettingRepository(AppName);
-            instance = setting.GetString("currentInstance");
-            SetSettingKey();
-        }
 
-        public ApiClient(string instance)
-        {
-            setting = new SettingRepository(AppName);            
-            this.instance = instance;
-            SetSettingKey();
-        }
+            this.instance = instance ?? (setting.GetString("currentInstance") ?? string.Empty);
+            appRegistrationKey = $"{this.instance}.appRegistration";
+            authKey = $"{this.instance}.auth";
 
-        private void SetSettingKey()
-        {
-            appRegistrationKey = $"{instance}.appRegistration";
-            authKey = $"{instance}.auth"; 
+            authClient = new AuthenticationClient(this.instance);
         }
 
         public async Task<string> Register()
         {
-            var authClient = new AuthenticationClient(instance);
-            var appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow);
+            var appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri:redirectUrl);
             setting.Set(appRegistrationKey, JsonConvert.SerializeObject(appRegistration));
-            return authClient.OAuthUrl();
+
+            // ブラウザでの認可後にアプリに戻ってこれるようにURLスキーマをリダイレクトURLにセット
+            return authClient.OAuthUrl(redirectUrl);
         }
 
         public async Task Auth(string authCode)
         {
-            var authClient = new AuthenticationClient(instance);
-            var auth = await authClient.ConnectWithCode(authCode);
+            var auth = await authClient.ConnectWithCode(authCode, redirectUrl);
             setting.Set(authKey, JsonConvert.SerializeObject(auth));
+            setting.Set("currentInstance", instance);
         }
 
         public MastodonClient Create()
@@ -59,5 +58,7 @@ namespace MastodonAppSample.Model
             var auth = JsonConvert.DeserializeObject<Auth>(setting.GetString(authKey));
             return new MastodonClient(appRegistration, auth);
         }
+
+
     }
 }
