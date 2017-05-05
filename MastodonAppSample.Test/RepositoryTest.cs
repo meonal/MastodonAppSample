@@ -11,7 +11,9 @@ namespace MastodonAppSample.Test
     [TestFixture]
     public class MastodonApiTest
     {
-        const string AppName = "Paooooooon";
+        const string AppName = "Paooon";
+        const string redirectUrl = "paoooon://authorize";
+
 
         private SettingRepository setting;
 
@@ -38,13 +40,13 @@ namespace MastodonAppSample.Test
         public void OAuthApp登録(string instanceUrl)
         {
             
-            Assert.Ignore("毎回実行すると迷惑かかるのでスキップ");
+            //Assert.Ignore("毎回実行すると迷惑かかるのでスキップ");
 
             var authClient = new AuthenticationClient(instanceUrl);
             var appRegistration = new AppRegistration();
             Assert.DoesNotThrow(async () =>
             {
-                appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow);
+                appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri:redirectUrl);
             });
 
             Console.WriteLine("appRegistration");

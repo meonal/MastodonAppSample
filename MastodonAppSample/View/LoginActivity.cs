@@ -1,24 +1,34 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Net;
+using System.Text.RegularExpressions;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
-using Android.Views;
 using Android.Widget;
 using MastodonAppSample.Model;
+using MastodonAppSample.View;
+
+using Debug = System.Diagnostics.Debug;
 
 namespace MastodonAppSample
 {
-    
-    [Activity(Label = "Paoooon", MainLauncher = true, Icon = "@drawable/icon")]
+    /// <summary>
+    /// Login activity.
+    /// OAuthの認証で、アプリ ｰ> ブラウザ ｰ> アプリと遷移する。
+    /// ブラウザからアプリを呼ぶためIntentFilterの属性を追加している。
+    /// </summary>
+    [Activity(Label = "Paoooon",
+              MainLauncher = true,
+              LaunchMode = Android.Content.PM.LaunchMode.SingleTask,
+              Icon = "@drawable/icon")]
+    [IntentFilter(new[] { Intent.ActionView },
+                  Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
+                  DataScheme = "paoooon",
+                  DataHost = "authorize")]
     public class LoginActivity : AppCompatActivity
     {
+        private ApiClient client;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -27,12 +37,26 @@ namespace MastodonAppSample
 
             SetContentView(Resource.Layout.login);
 
+            // TLSを明示的に指定（指定しないと一部のインスタンスで認証が通らない）
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            // すでにアクセストークンを持っている場合はログイン画面はスキップ
+            if (new ApiClient().HasAccessToken)
+            {
+                var main = new Intent(this, typeof(MainActivity));
+                StartActivity(main);
+            }
+
             var instanceEdit = FindViewById<EditText>(Resource.Id.instanceEdit);
             var loginButton = FindViewById<Button>(Resource.Id.loginButton);
 
+            var instance = instanceEdit.Text;
+
             loginButton.Click += async (sender, e) =>
             {
-                var client = new ApiClient(instanceEdit.Text);
+                Debug.WriteLine("APIクライアントの登録開始 instance: " + instance);
+
+                client = new ApiClient(instance);
                 var url = await client.Register();
 
                 var uri = Android.Net.Uri.Parse(url);
@@ -40,6 +64,31 @@ namespace MastodonAppSample
                 StartActivity(intent);
             };
 
+        }
+
+        /// <summary>
+        /// ブラウザから戻ってきた後の処理
+        /// </summary>
+        /// <param name="intent">Intent.</param>
+        protected override async void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+
+            var uri = intent.Data;
+
+            Debug.WriteLine("uri: " + uri);
+
+            var m = Regex.Match(uri.ToString(), "code=(.*)");
+            if (!m.Success) return;
+            var authCode = m.Groups[1].Value;
+
+            Debug.WriteLine("authCode: " + authCode);
+
+            if (client == null) return;
+            await client.Auth(authCode);
+
+            var main = new Intent(this, typeof(MainActivity));
+            StartActivity(main);
         }
     }
 }
