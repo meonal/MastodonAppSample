@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
 using MastodonAppSample.Model;
+using MastodonAppSample.Model.Definition;
 using MastodonAppSample.View;
 
 using Debug = System.Diagnostics.Debug;
@@ -17,14 +18,14 @@ namespace MastodonAppSample
     /// OAuthの認証で、アプリ ｰ> ブラウザ ｰ> アプリと遷移する。
     /// ブラウザからアプリを呼ぶためIntentFilterの属性を追加している。
     /// </summary>
-    [Activity(Label = "Paoooon",
+    [Activity(Label = Constants.AppName,
               MainLauncher = true,
               LaunchMode = Android.Content.PM.LaunchMode.SingleTask,
               Icon = "@drawable/icon")]
     [IntentFilter(new[] { Intent.ActionView },
                   Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-                  DataScheme = "paoooon",
-                  DataHost = "authorize")]
+                  DataScheme = Constants.AppUrlScheme,
+                  DataHost = Constants.AppUrlHostAuthorize)]
     public class LoginActivity : AppCompatActivity
     {
         private ApiClient client;

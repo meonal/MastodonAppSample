@@ -1,6 +1,5 @@
 ﻿using System;
-using Android.App;
-using Android.Content;
+using MastodonAppSample.Model.Definition;
 using MastodonAppSample.Model.Repository;
 using Mastonet;
 using Mastonet.Entities;
@@ -11,16 +10,13 @@ namespace MastodonAppSample.Test
     [TestFixture]
     public class MastodonApiTest
     {
-        const string AppName = "Paooon";
-        const string redirectUrl = "paoooon://authorize";
-
-
-        private SettingRepository setting;
+        const string redirectUrl = Constants.AppUrlScheme + "://" + Constants.AppUrlHostAuthorize;
+        SettingRepository setting;
 
         [SetUp]
         public void Setup()
         {
-            setting = new SettingRepository(AppName + ".Test");
+            setting = new SettingRepository(Constants.AppName + ".Test");
         }
 
 
@@ -39,14 +35,14 @@ namespace MastodonAppSample.Test
         [TestCase("mastodon.cloud")]
         public void OAuthApp登録(string instanceUrl)
         {
-            
+
             //Assert.Ignore("毎回実行すると迷惑かかるのでスキップ");
 
             var authClient = new AuthenticationClient(instanceUrl);
             var appRegistration = new AppRegistration();
             Assert.DoesNotThrow(async () =>
             {
-                appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri:redirectUrl);
+                appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri: redirectUrl);
             });
 
             Console.WriteLine("appRegistration");

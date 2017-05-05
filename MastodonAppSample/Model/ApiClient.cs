@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MastodonAppSample.Model.Definition;
 using MastodonAppSample.Model.Repository;
 using Mastonet;
 using Mastonet.Entities;
@@ -11,8 +12,7 @@ namespace MastodonAppSample.Model
     /// </summary>
     public class ApiClient
     {
-        const string AppName = "Paoooon";
-        const string redirectUrl = "paoooon://authorize";
+        const string redirectUrl = Constants.AppUrlScheme + "://" + Constants.AppUrlHostAuthorize;
 
         private readonly SettingRepository setting;
         private readonly AuthenticationClient authClient;
@@ -27,18 +27,18 @@ namespace MastodonAppSample.Model
 
         public ApiClient(string instance = null)
         {
-            setting = new SettingRepository(AppName);
+            setting = new SettingRepository(Constants.AppName);
 
-            this.instance = instance ?? (setting.GetString("currentInstance") ?? string.Empty);
-            appRegistrationKey = $"{this.instance}.appRegistration";
-            authKey = $"{this.instance}.auth";
+            this.instance = instance ?? (setting.GetString(AppSettingKeys.CurrentInstance) ?? string.Empty);
+            appRegistrationKey = $"{this.instance}.{AppSettingKeys.AppRegistration}";
+            authKey = $"{this.instance}.{AppSettingKeys.Auth}";
 
             authClient = new AuthenticationClient(this.instance);
         }
 
         public async Task<string> Register()
         {
-            var appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri:redirectUrl);
+            var appRegistration = await authClient.CreateApp(Constants.AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri: redirectUrl);
             setting.Set(appRegistrationKey, JsonConvert.SerializeObject(appRegistration));
 
             // ブラウザでの認可後にアプリに戻ってこれるようにURLスキーマをリダイレクトURLにセット
@@ -49,7 +49,7 @@ namespace MastodonAppSample.Model
         {
             var auth = await authClient.ConnectWithCode(authCode, redirectUrl);
             setting.Set(authKey, JsonConvert.SerializeObject(auth));
-            setting.Set("currentInstance", instance);
+            setting.Set(AppSettingKeys.CurrentInstance, instance);
         }
 
         public MastodonClient Create()

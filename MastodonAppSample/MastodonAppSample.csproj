@@ -118,6 +118,8 @@
     <Compile Include="Model\Repository\SettingRepository.cs" />
     <Compile Include="Model\ApiClient.cs" />
     <Compile Include="View\LoginActivity.cs" />
+    <Compile Include="Model\Definition\Constants.cs" />
+    <Compile Include="Model\Definition\AppSettingKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -149,6 +151,7 @@
     <Folder Include="Presenter\" />
     <Folder Include="Model\" />
     <Folder Include="Model\Repository\" />
+    <Folder Include="Model\Definition\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
