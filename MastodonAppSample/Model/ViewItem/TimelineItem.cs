@@ -1,7 +1,7 @@
 ﻿using System;
 using Mastonet.Entities;
 
-namespace MastodonAppSample.Model.Entity
+namespace MastodonAppSample.Model.ViewItem
 {
     public class TimelineItem
     {

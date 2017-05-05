@@ -107,6 +107,9 @@
     <Reference Include="Mastonet">
       <HintPath>..\packages\Mastonet.0.1.0-beta2\lib\netstandard1.1\Mastonet.dll</HintPath>
     </Reference>
+    <Reference Include="CenterCLR.SgmlReader">
+      <HintPath>..\packages\CenterCLR.SgmlReader.2016.3.27.2\lib\portable-net45+dnxcore+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\CenterCLR.SgmlReader.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -121,7 +124,7 @@
     <Compile Include="Model\Definition\Constants.cs" />
     <Compile Include="Model\Definition\AppSettingKeys.cs" />
     <Compile Include="View\TimelineAdapter.cs" />
-    <Compile Include="Model\Entity\TimelineItem.cs" />
+    <Compile Include="Model\ViewItem\TimelineItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -155,7 +158,7 @@
     <Folder Include="Model\" />
     <Folder Include="Model\Repository\" />
     <Folder Include="Model\Definition\" />
-    <Folder Include="Model\Entity\" />
+    <Folder Include="Model\ViewItem\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

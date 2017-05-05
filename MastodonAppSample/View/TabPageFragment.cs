@@ -7,7 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using MastodonAppSample.Model;
-using MastodonAppSample.Model.Entity;
+using MastodonAppSample.Model.ViewItem;
 using Debug = System.Diagnostics.Debug;
 
 namespace MastodonAppSample.View

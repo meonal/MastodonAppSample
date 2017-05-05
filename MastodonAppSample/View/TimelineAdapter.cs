@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Android.Views;
 using Android.Widget;
-using MastodonAppSample.Model.Entity;
-
+using MastodonAppSample.Model.ViewItem;
 using Context = Android.Content.Context;
 using Debug = System.Diagnostics.Debug;
+using Android.Text;
+using Android.Text.Method;
 
 namespace MastodonAppSample.View
 {
@@ -47,11 +49,7 @@ namespace MastodonAppSample.View
 
         public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
-
             var item = items[position];
-
-            //Debug.WriteLine("position: " + position);
-            //Debug.WriteLine("name: " + item.Staus.Account.AccountName);
 
             var view = inflater.Inflate(Resource.Layout.timeline_item, null);
 
@@ -62,11 +60,16 @@ namespace MastodonAppSample.View
                 icon.SetImageBitmap(bmp);
             }
 
+            var displayName = view.FindViewById<TextView>(Resource.Id.DisplayName);
+            displayName.Text = item.Staus.Account.DisplayName;
             var accountName = view.FindViewById<TextView>(Resource.Id.AccountName);
             accountName.Text = item.Staus.Account.AccountName;
+            var createAt = view.FindViewById<TextView>(Resource.Id.CreateAt);
+            createAt.Text = item.Staus.CreatedAt.ToString("G");
 
             var content = view.FindViewById<TextView>(Resource.Id.Content);
-            content.Text = item.Staus.Content;
+            content.TextFormatted = Html.FromHtml(item.Staus.Content, FromHtmlOptions.ModeCompact);
+            content.MovementMethod = LinkMovementMethod.Instance;
 
             return view;
         }

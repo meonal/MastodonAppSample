@@ -2168,11 +2168,29 @@ namespace MastodonAppSample
 			// aapt resource value: 0x7f07009f
 			public const int AccountName = 2131165343;
 			
+			// aapt resource value: 0x7f0700a3
+			public const int Boost = 2131165347;
+			
+			// aapt resource value: 0x7f0700a1
+			public const int Content = 2131165345;
+			
 			// aapt resource value: 0x7f0700a0
-			public const int Content = 2131165344;
+			public const int CreateAt = 2131165344;
+			
+			// aapt resource value: 0x7f07009e
+			public const int DisplayName = 2131165342;
+			
+			// aapt resource value: 0x7f0700a5
+			public const int Etc = 2131165349;
+			
+			// aapt resource value: 0x7f0700a4
+			public const int Fav = 2131165348;
 			
 			// aapt resource value: 0x7f07009d
 			public const int Icon = 2131165341;
+			
+			// aapt resource value: 0x7f0700a2
+			public const int Reply = 2131165346;
 			
 			// aapt resource value: 0x7f07007f
 			public const int TimelineListView = 2131165311;
@@ -2396,9 +2414,6 @@ namespace MastodonAppSample
 			// aapt resource value: 0x7f07009a
 			public const int line3 = 2131165338;
 			
-			// aapt resource value: 0x7f07009e
-			public const int linearLayout1 = 2131165342;
-			
 			// aapt resource value: 0x7f07000f
 			public const int listMode = 2131165199;
 			
@@ -2408,8 +2423,8 @@ namespace MastodonAppSample
 			// aapt resource value: 0x7f070082
 			public const int loginButton = 2131165314;
 			
-			// aapt resource value: 0x7f0700a2
-			public const int masked = 2131165346;
+			// aapt resource value: 0x7f0700a7
+			public const int masked = 2131165351;
 			
 			// aapt resource value: 0x7f07008c
 			public const int media_actions = 2131165324;
@@ -2645,8 +2660,8 @@ namespace MastodonAppSample
 			// aapt resource value: 0x7f07000e
 			public const int view_offset_helper = 2131165198;
 			
-			// aapt resource value: 0x7f0700a1
-			public const int visible = 2131165345;
+			// aapt resource value: 0x7f0700a6
+			public const int visible = 2131165350;
 			
 			// aapt resource value: 0x7f070027
 			public const int withText = 2131165223;
