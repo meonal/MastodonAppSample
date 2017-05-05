@@ -30,6 +30,8 @@ namespace MastodonAppSample.Model
             setting = new SettingRepository(Constants.AppName);
 
             this.instance = instance ?? (setting.GetString(AppSettingKeys.CurrentInstance) ?? string.Empty);
+
+            // インスタンス毎に設定保存（将来のインスタンス切替に備えて）
             appRegistrationKey = $"{this.instance}.{AppSettingKeys.AppRegistration}";
             authKey = $"{this.instance}.{AppSettingKeys.Auth}";
 
