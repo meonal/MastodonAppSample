@@ -42,7 +42,7 @@ namespace MastodonAppSample.Test
             var appRegistration = new AppRegistration();
             Assert.DoesNotThrow(async () =>
             {
-                appRegistration = await authClient.CreateApp(AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri: redirectUrl);
+                appRegistration = await authClient.CreateApp(Constants.AppName, Scope.Read | Scope.Write | Scope.Follow, redirectUri: redirectUrl);
             });
 
             Console.WriteLine("appRegistration");

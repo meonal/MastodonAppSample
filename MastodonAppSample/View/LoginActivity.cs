@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -37,9 +36,6 @@ namespace MastodonAppSample
             // Create your application here
 
             SetContentView(Resource.Layout.login);
-
-            // TLSを明示的に指定（指定しないと一部のインスタンスで認証が通らない）
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             // すでにアクセストークンを持っている場合はログイン画面はスキップ
             if (new ApiClient().HasAccessToken)
