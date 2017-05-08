@@ -1,5 +1,5 @@
-﻿using System;
-namespace MastodonAppSample.Model.Definition
+using System;
+namespace MastodonAppSample.Definition
 {
     public static class AppSettingKeys
     {

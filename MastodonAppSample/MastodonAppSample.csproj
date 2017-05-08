@@ -121,10 +121,11 @@
     <Compile Include="Model\Repository\SettingRepository.cs" />
     <Compile Include="Model\ApiClient.cs" />
     <Compile Include="View\LoginActivity.cs" />
-    <Compile Include="Model\Definition\Constants.cs" />
-    <Compile Include="Model\Definition\AppSettingKeys.cs" />
     <Compile Include="View\TimelineAdapter.cs" />
     <Compile Include="Model\ViewItem\TimelineItem.cs" />
+    <Compile Include="View\Enum\MainTab.cs" />
+    <Compile Include="Definition\AppSettingKeys.cs" />
+    <Compile Include="Definition\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -157,8 +158,9 @@
     <Folder Include="Presenter\" />
     <Folder Include="Model\" />
     <Folder Include="Model\Repository\" />
-    <Folder Include="Model\Definition\" />
     <Folder Include="Model\ViewItem\" />
+    <Folder Include="View\Enum\" />
+    <Folder Include="Definition\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

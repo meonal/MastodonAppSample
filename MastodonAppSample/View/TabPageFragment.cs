@@ -5,9 +5,10 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
 using MastodonAppSample.Model;
 using MastodonAppSample.Model.ViewItem;
+using MastodonAppSample.View.Enum;
+using Mastonet;
 using Debug = System.Diagnostics.Debug;
 
 namespace MastodonAppSample.View
@@ -20,6 +21,8 @@ namespace MastodonAppSample.View
         const string ARG_PAGE = "ARG_PAGE";
         private int mPage;
         private readonly HttpClient client;
+        private List<TimelineItem> timeline;
+        private TimelineAdapter adapter;
 
         public TabPageFragment()
         {
@@ -39,6 +42,9 @@ namespace MastodonAppSample.View
         {
             base.OnCreate(savedInstanceState);
             mPage = Arguments.GetInt(ARG_PAGE);
+
+            timeline = new List<TimelineItem>();
+            adapter = new TimelineAdapter(Context, timeline);
         }
 
         public override Android.Views.View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,41 +52,52 @@ namespace MastodonAppSample.View
             var view = inflater.Inflate(Resource.Layout.fragment_page, container, false);
             var listView = (ListView)view;
 
-            var timeline = new List<TimelineItem>();
-            var adapter = new TimelineAdapter(Context, timeline);
             listView.Adapter = adapter;
 
             //行の移動
             //listView.SetSelection(10);  //10番目の行(item_10)を一番上に表示する
 
-            if (mPage == 1)
+            var mastodonClient = new ApiClient().Create();
+            switch ((MainTab)mPage)
             {
-                var mastodonClient = new ApiClient().Create();
+                case MainTab.Main:
+                    var uStreaming = mastodonClient.GetUserStreaming();
+                    uStreaming.OnUpdate += OnStreamingUpdate;
+                    uStreaming.Start();
+                    break;
+                case MainTab.Local:
+                    var lStreaming = mastodonClient.GetHashtagStreaming("Xamarin");
+                    lStreaming.OnUpdate += OnStreamingUpdate;
+                    lStreaming.Start();
+                    break;
+                case MainTab.Federation:
+                    var fStreaming = mastodonClient.GetPublicStreaming();
+                    fStreaming.OnUpdate += OnStreamingUpdate;
+                    fStreaming.Start();
+                    break;
 
-                var streaming = mastodonClient.GetPublicStreaming();
-                streaming.OnUpdate += async (sender, e) =>
-                {
-                    Debug.WriteLine(e.Status.Account.AvatarUrl);
-                    var item = new TimelineItem();
-
-                    try
-                    {
-                        item.IconImage = await client.GetByteArrayAsync(e.Status.Account.AvatarUrl);
-                    }
-                    catch (System.Exception)
-                    {
-                        Debug.WriteLine("アイコン画像取得失敗");
-                    }
-
-                    item.Staus = e.Status;
-                    timeline.Insert(0, item);
-                    adapter.NotifyDataSetChanged();
-                };
-
-                streaming.Start();
             }
 
             return view;
+        }
+
+        private async void OnStreamingUpdate(object sender, StreamUpdateEventArgs e)
+        {
+            //Debug.WriteLine(e.Status.Account.AvatarUrl);
+            var item = new TimelineItem();
+
+            try
+            {
+                item.IconImage = await client.GetByteArrayAsync(e.Status.Account.AvatarUrl);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("アイコン画像取得失敗");
+            }
+
+            item.Staus = e.Status;
+            timeline.Insert(0, item);
+            adapter.NotifyDataSetChanged();
         }
 
 

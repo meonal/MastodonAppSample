@@ -1,6 +1,6 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading.Tasks;
-using MastodonAppSample.Model.Definition;
+using MastodonAppSample.Definition;
 using MastodonAppSample.Model.Repository;
 using Mastonet;
 using Mastonet.Entities;

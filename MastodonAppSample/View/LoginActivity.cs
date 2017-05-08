@@ -1,11 +1,11 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
 using MastodonAppSample.Model;
-using MastodonAppSample.Model.Definition;
+using MastodonAppSample.Definition;
 using MastodonAppSample.View;
 
 using Debug = System.Diagnostics.Debug;
