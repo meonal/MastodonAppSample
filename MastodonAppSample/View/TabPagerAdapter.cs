@@ -5,6 +5,7 @@ using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using MastodonAppSample.View.Enum;
 
 namespace MastodonAppSample.View
 {
@@ -13,12 +14,11 @@ namespace MastodonAppSample.View
     /// </summary>
     public class TabPagerAdapter : FragmentPagerAdapter
     {
-        const int PAGE_COUNT = 3;
         readonly string[] tabTitles =
-                {
-            "メイン",
-            "ローカル",
-            "連合"
+        {
+            MainTab.Main.ToText(),
+            MainTab.Local.ToText(),
+            MainTab.Federation.ToText(),
         };
         readonly Context context;
 
@@ -31,7 +31,7 @@ namespace MastodonAppSample.View
             this.context = context;
         }
 
-        public override int Count => PAGE_COUNT;
+        public override int Count => tabTitles.Length;
 
         public override Fragment GetItem(int position)
         {
@@ -47,7 +47,7 @@ namespace MastodonAppSample.View
         public Android.Views.View GetTabView(int position)
         {
             // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView
-            var tv = (TextView) LayoutInflater.From(context).Inflate(Resource.Layout.custom_tab, null);
+            var tv = (TextView)LayoutInflater.From(context).Inflate(Resource.Layout.custom_tab, null);
             tv.Text = tabTitles[position];
             return tv;
         }

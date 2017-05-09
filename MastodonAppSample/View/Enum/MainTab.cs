@@ -7,4 +7,22 @@ namespace MastodonAppSample.View.Enum
         Local,
         Federation
     }
+
+    public static class MainTabExtension
+    {
+        public static string ToText(this MainTab tab)
+        {
+            switch (tab)
+            {
+                case MainTab.Main:
+                    return "メイン";
+                case MainTab.Local:
+                    return "ローカル";
+                case MainTab.Federation:
+                    return "連合";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 }
