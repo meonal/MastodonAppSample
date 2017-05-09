@@ -19,10 +19,11 @@ namespace MastodonAppSample.View
     public class TabPageFragment : Fragment
     {
         const string ARG_PAGE = "ARG_PAGE";
-        private int mPage;
-        private readonly HttpClient client;
-        private List<TimelineItem> timeline;
-        private TimelineAdapter adapter;
+        int mPage;
+        readonly HttpClient client;
+        List<TimelineItem> timeline;
+        TimelineAdapter adapter;
+        TimelineStreaming streaming;
 
         public TabPageFragment()
         {
@@ -45,40 +46,48 @@ namespace MastodonAppSample.View
 
             timeline = new List<TimelineItem>();
             adapter = new TimelineAdapter(Context, timeline);
-        }
-
-        public override Android.Views.View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
-            var view = inflater.Inflate(Resource.Layout.fragment_page, container, false);
-            var listView = (ListView)view;
-
-            listView.Adapter = adapter;
-
-            //行の移動
-            //listView.SetSelection(10);  //10番目の行(item_10)を一番上に表示する
 
             var mastodonClient = new ApiClient().Create();
             switch ((MainTab)mPage)
             {
                 case MainTab.Main:
-                    var uStreaming = mastodonClient.GetUserStreaming();
-                    uStreaming.OnUpdate += OnStreamingUpdate;
-                    uStreaming.Start();
+                    streaming = mastodonClient.GetUserStreaming();
                     break;
                 case MainTab.Local:
-                    var lStreaming = mastodonClient.GetHashtagStreaming("Xamarin");
-                    lStreaming.OnUpdate += OnStreamingUpdate;
-                    lStreaming.Start();
+                    streaming = mastodonClient.GetHashtagStreaming("pixiv");
                     break;
                 case MainTab.Federation:
-                    var fStreaming = mastodonClient.GetPublicStreaming();
-                    fStreaming.OnUpdate += OnStreamingUpdate;
-                    fStreaming.Start();
+                    streaming = mastodonClient.GetPublicStreaming();
                     break;
-
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+            streaming.OnUpdate += OnStreamingUpdate;
+        }
+
+        public override Android.Views.View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            base.OnCreateView(inflater, container, savedInstanceState);
+
+            var view = inflater.Inflate(Resource.Layout.fragment_page, container, false);
+            var listView = (ListView)view;
+            listView.Adapter = adapter;
+
+            streaming.Start();
+            Debug.WriteLine("Start:" + mPage);
+
+            //行の移動
+            //listView.SetSelection(10);  //10番目の行(item_10)を一番上に表示する
 
             return view;
+        }
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+
+            streaming.Stop();
+            Debug.WriteLine("Stop:" + mPage);
         }
 
         private async void OnStreamingUpdate(object sender, StreamUpdateEventArgs e)
