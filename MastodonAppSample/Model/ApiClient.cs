@@ -21,10 +21,7 @@ namespace MastodonAppSample.Model
         private readonly string appRegistrationKey;
         private readonly string authKey;
 
-        public bool HasAccessToken
-        {
-            get { return !string.IsNullOrEmpty(setting.GetString(authKey)); }
-        }
+        public bool HasAccessToken => !string.IsNullOrEmpty(setting.GetString(authKey));
 
         public ApiClient(string instance = null)
         {

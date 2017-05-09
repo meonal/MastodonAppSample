@@ -26,21 +26,9 @@ namespace MastodonAppSample.View
             items = list;
         }
 
-        public override TimelineItem this[int position]
-        {
-            get
-            {
-                return items[position];
-            }
-        }
+        public override TimelineItem this[int position] => items[position];
 
-        public override int Count
-        {
-            get
-            {
-                return items.Count;
-            }
-        }
+        public override int Count => items.Count;
 
         public override long GetItemId(int position)
         {

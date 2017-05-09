@@ -14,8 +14,8 @@ namespace MastodonAppSample.View
     public class TabPagerAdapter : FragmentPagerAdapter
     {
         const int PAGE_COUNT = 3;
-        private string[] tabTitles = 
-        {
+        readonly string[] tabTitles =
+                {
             "メイン",
             "ローカル",
             "連合"
@@ -31,10 +31,7 @@ namespace MastodonAppSample.View
             this.context = context;
         }
 
-        public override int Count 
-        {
-            get { return PAGE_COUNT; }
-        }
+        public override int Count => PAGE_COUNT;
 
         public override Fragment GetItem(int position)
         {
